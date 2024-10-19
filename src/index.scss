@@ -1,0 +1,81 @@
+
+//OBS: para esse scss funcionar em HTML, baixem a extensão "Live Sass Compiler" e apertem em "Watch Sass" na ultima barrinha do vscode, onde normalmente ficam o UTF-8 e as linguagens que usamos. Depois é só executar o arquivo HTML pelo Live Server. E não, não é pra mexer em nenhum dos arquivos que vão aparecer.
+
+
+body {
+
+    align-items: center;
+    background-color: #e3e3e3;
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+}
+
+@mixin white-gradient {
+    
+    background: linear-gradient(to right, rgb(255, 255, 255, 1) 0%, rgb(255, 255, 255, 0) 100%);
+}
+
+$animationSpeed: 40s; //tempo de exibição, que consequentemente mexe na velocidade
+
+
+//animação
+@keyframes scroll {
+
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(calc(-250px * 10)); //aparentemente, mudar o primeiro valor e o segundo influencia na velocidade do carrossel
+    }
+}
+
+
+//Styling
+.principal {
+    background: white;
+    box-shadow: 0 10px 20px -5px rgb(0, 0, 0, .125);
+    height: 150px;
+    margin: auto;
+    overflow: hidden; 
+    position: relative;
+    width: 960px;
+
+
+    &::before,
+    &::after { //ao que parece, são as divs que ficam nas laterais responsáveis por dar o efeito de desaparecimento às imagens quando elas chegam no fim e quando começam a aparecer.
+        @include white-gradient;
+        content: "";
+        height: 150px;
+        position: absolute;
+        width: 200px;
+        z-index: 2;
+    }
+
+    &::after {
+
+        right: 0;
+        top: 0;
+        transform: rotateZ(180deg);
+    }
+
+    &::before {
+        left: 0;
+        top: 0;
+    }
+
+
+    .slide-track {
+
+        animation: scroll $animationSpeed linear infinite;
+        display: flex;
+        width: calc(250px * 15); //acho que apenas indica a distancia entre as imagens
+    }
+
+    .slide { //tamanho das imagens, mas de qualquer forma já estão com seus tamanhos designados no HTML
+
+        height: 100px; 
+        width: 250px;
+    }
+}
